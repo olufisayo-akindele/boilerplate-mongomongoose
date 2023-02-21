@@ -11,17 +11,30 @@ const personSchema = new Schema({
 })
 
 const Person = mongoose.model('Person', personSchema)
-
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology:  true  });
-
+const mySecret = process.env['MONGO_URI']
+mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology:  true  });
 
 const createAndSavePerson = (done) => {
-    done(null /*, data*/ );
+
+
+    const person = new Person({
+        name: 'Fisayo',
+        age: 20,
+        favoriteFoods: ['rice', 'chicken']
+    });
+    person.save(function(err, data) {
+        if (err) {
+            done(err);
+            return;
+        }
+        done(null, data);
+        console.log(data);
+    })
 };
 
-const createManyPeople = (arrayOfPeople, done) => {
+function createManyPeople(arrayOfPeople, done) {
     done(null /*, data*/ );
-};
+}
 
 const findPeopleByName = (personName, done) => {
     done(null /*, data*/ );
